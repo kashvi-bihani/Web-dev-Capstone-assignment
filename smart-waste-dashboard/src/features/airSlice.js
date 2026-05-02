@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAirQuality } from "../services/api";
 
-// Async thunk
 export const getAirData = createAsyncThunk(
   "air/getAirData",
   async (city) => {

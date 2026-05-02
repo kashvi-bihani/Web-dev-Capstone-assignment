@@ -1,12 +1,22 @@
-.navbar {
-  background-color: green;
-  padding: 15px;
+.nav {
   display: flex;
-  gap: 20px;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px;
+  background: #333;
 }
 
-.link {
+.nav a {
   color: white;
   text-decoration: none;
-  font-weight: bold;
+  transition: 0.3s;
+}
+
+.nav a:hover {
+  color: #4caf50;
+  transform: scale(1.1);
+}
+
+.active {
+  border-bottom: 2px solid #4caf50;
 }

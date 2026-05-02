@@ -2,38 +2,65 @@ import { useState } from "react";
 import styles from "./Tracker.module.css";
 
 function Tracker() {
-  const [activities, setActivities] = useState([]);
-  const [input, setInput] = useState("");
+  const [task, setTask] = useState("");
+  const [list, setList] = useState([]);
+  const [filter, setFilter] = useState("all");
 
-  const addActivity = () => {
-    if (!input) return;
-    setActivities([...activities, input]);
-    setInput("");
+  const addTask = () => {
+    if (!task.trim()) return;
+    setList([...list, task]);
+    setTask("");
   };
 
-  const deleteActivity = (index) => {
-    const newList = activities.filter((_, i) => i !== index);
-    setActivities(newList);
+  const deleteTask = (index) => {
+    const updated = list.filter((_, i) => i !== index);
+    setList(updated);
   };
+
+  // simple filtering
+  const filteredList = list.filter((item) => {
+    if (filter === "all") return true;
+    return item.toLowerCase().includes(filter);
+  });
+
+  const total = list.length;
+  const plastic = list.filter((t) => t.toLowerCase().includes("plastic")).length;
+  const organic = list.filter((t) => t.toLowerCase().includes("organic")).length;
+  const ewaste = list.filter((t) => t.toLowerCase().includes("ewaste") || t.toLowerCase().includes("e-waste")).length;
 
   return (
-    <div>
-      <h1 className={styles.title}>Tracker</h1>
+    <div className={styles.container}>
+      <h1> Waste Tracker</h1>
+
+      <div className={styles.stats}>
+        <p>Total: {total}</p>
+        <p>Plastic: {plastic}</p>
+        <p>Organic: {organic}</p>
+        <p>E-Waste: {ewaste}</p>
+      </div>
 
       <div className={styles.inputBox}>
         <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter activity"
+          type="text"
+          placeholder="Add waste activity..."
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
         />
-        <button onClick={addActivity}>Add</button>
+        <button onClick={addTask}>Add</button>
       </div>
 
-      <ul>
-        {activities.map((item, index) => (
+      <div className={styles.filters}>
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("plastic")}>Plastic</button>
+        <button onClick={() => setFilter("organic")}>Organic</button>
+        <button onClick={() => setFilter("ewaste")}>E-Waste</button>
+      </div>
+
+      <ul className={styles.list}>
+        {filteredList.map((item, index) => (
           <li key={index}>
             {item}
-            <button onClick={() => deleteActivity(index)}>❌</button>
+            <button onClick={() => deleteTask(index)}>❌</button>
           </li>
         ))}
       </ul>
