@@ -1,12 +1,12 @@
 import { useState } from "react";
+import styles from "./Tracker.module.css";
 
 function Tracker() {
   const [activities, setActivities] = useState([]);
   const [input, setInput] = useState("");
 
   const addActivity = () => {
-    if (input.trim() === "") return;
-
+    if (!input) return;
     setActivities([...activities, input]);
     setInput("");
   };
@@ -18,33 +18,22 @@ function Tracker() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">📝 Eco Activity Tracker</h1>
+      <h1 className={styles.title}>Tracker</h1>
 
-      <div className="mt-4 flex gap-2">
+      <div className={styles.inputBox}>
         <input
-          className="border p-2"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter activity"
         />
-        <button
-          onClick={addActivity}
-          className="bg-green-500 text-white px-4"
-        >
-          Add
-        </button>
+        <button onClick={addActivity}>Add</button>
       </div>
 
-      <ul className="mt-4">
+      <ul>
         {activities.map((item, index) => (
-          <li key={index} className="flex justify-between mt-2">
+          <li key={index}>
             {item}
-            <button
-              onClick={() => deleteActivity(index)}
-              className="text-red-500"
-            >
-              Delete
-            </button>
+            <button onClick={() => deleteActivity(index)}>❌</button>
           </li>
         ))}
       </ul>
